@@ -16,6 +16,10 @@ const App = () => {
 		store.dispatch(actions.titleChanged(taskId))
 	}
 
+	const deleteTask = (taskId) => {
+		store.dispatch(actions.taskDeleted(taskId))
+	}
+
 	useEffect(() => {
 		store.subscribe(() => {
 			setState(store.getState())
@@ -35,13 +39,15 @@ const App = () => {
 				<button onClick={() => changeTitle(el.id)}>
 					Change title
 				</button>
+				<button onClick={() => deleteTask(el.id)}>
+					Delete task
+				</button>
 				<hr />
 			</li>)}
 	</ul>
 	</>
 	
 }
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

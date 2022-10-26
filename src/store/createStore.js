@@ -1,4 +1,3 @@
-
 export function createStore(reducer, initialState) {
 	let state = initialState
 	let listeners = []
@@ -16,6 +15,6 @@ export function createStore(reducer, initialState) {
 	function subscribe(listener) {
 		listeners.push(listener)
 	}
-
+	
 	return {getState, dispatch, subscribe}
 }
