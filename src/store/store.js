@@ -5,7 +5,7 @@ import  taskReducer  from "./task";
 
 function createStore() {
 	return configureStore({
-		reduser: taskReducer,
+		reducer: taskReducer,
 		middleware: (getDefaultMiddleware) => 
 			getDefaultMiddleware().concat(logger),
 		devTools: process.env.NODE_ENV !== 'production'
