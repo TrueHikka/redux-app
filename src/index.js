@@ -1,6 +1,6 @@
 import React, { useEffect} from 'react';
 import ReactDOM from 'react-dom/client';
-import {titleChanged, taskDeleted, completeTask, loadTasks,getTasks, getTaskLoadingStatus} from "./store/task"
+import {titleChanged, taskDeleted, completeTask, loadTasks,getTasks, getTaskLoadingStatus, createdTask} from "./store/task"
 import configureStore from './store/store';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { getError } from './store/errors';
@@ -34,6 +34,13 @@ const App = () => {
 
 	return <>
 	<h1>App</h1> 
+	<h3 style={{display: "inline", marginRight: 10}}>Создать новую задачу:</h3>
+            <button
+                style={{backgroundColor: "lightgreen", color: "black"}}
+                onClick={() => dispatch(createdTask({title: "NEW TODO", completed: false}))}>
+                Create Task
+            </button>
+            <hr />
 	<ul>
 		{state.map(el => 
 			<li key={el.id}>

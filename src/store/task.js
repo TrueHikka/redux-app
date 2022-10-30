@@ -5,6 +5,10 @@ import { setError } from './errors'
 const initialState = {entities: [], isLoading: true}
 
 const taskSlice = createSlice({name: "task", initialState, reducers: {
+	created(state, action) {
+		state.entities = [...state.entities, action.payload]
+		state.isLoading = false
+	},
 	received(state, action) {
 		state.entities = action.payload
 		state.isLoading = false
@@ -22,13 +26,13 @@ const taskSlice = createSlice({name: "task", initialState, reducers: {
 	taskRequested(state) {
 		state.isLoading = true
 	},
-	taskRequestFailed(state, action) {
+	taskRequestFailed(state) {
 		state.isLoading = false
 	}
 }})
 
 const {actions, reducer: taskReducer} = taskSlice
-const {update, remove, received, taskRequested, taskRequestFailed} = actions
+const {update, remove, received, taskRequested, taskRequestFailed, created} = actions
 
 export const loadTasks = () => async (dispatch) => {
 	dispatch(taskRequested())
@@ -41,7 +45,18 @@ export const loadTasks = () => async (dispatch) => {
 	}
 }
 
-export const completeTask = (id) => (dispatch, getState) => {
+export const createdTask = (newTask) => async (dispatch) => {
+	dispatch(taskRequested())
+	try {
+        const data = await todosService.post(newTask);
+        dispatch(created(data));
+    } catch(error) {
+        dispatch(taskRequestFailed());
+        dispatch(setError(error.message));
+    }
+}
+
+export const completeTask = (id) => (dispatch) => {
 	dispatch(update({id, completed: true}))
 }
 
